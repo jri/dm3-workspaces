@@ -9,7 +9,16 @@ dm3_workspaces.prototype = {
         var workspaces = db.view("deepamehta3/by_type", {key: "Workspace"})
         // update DB: create default workspace
         if (workspaces.rows.length == 0) {
-            var fields = [{id: "Name", show_label: true, type: "single line", content: "Default"}]
+            var fields = [{
+                id: "Name",
+                model: {
+                    type: "text",
+                },
+                view: {
+                    editor: "single line"
+                },
+                content: "Default"
+            }]
             create_topic("Workspace", fields, "PlainDocument")
             workspaces = db.view("deepamehta3/by_type", {key: "Workspace"})
         }
@@ -27,9 +36,13 @@ dm3_workspaces.prototype = {
         if (doc.type == "Topic") {
             doc.fields.push({
                 id: "Workspaces",
-                show_label: false,
-                type: "relation",
-                related_type: "Workspace"
+                model: {
+                    type: "relation",
+                    related_type: "Workspace"
+                },
+                view: {
+                    editor: "checkboxes"
+                }
             })
         } else {
             // TODO: handle relations too
