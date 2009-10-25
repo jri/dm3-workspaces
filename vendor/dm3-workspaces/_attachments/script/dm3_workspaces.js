@@ -87,16 +87,28 @@ dm3_workspaces.prototype = {
     },
 
     create_workspace: function(name) {
-        var fields = [{
-            id: "Name",
-            model: {
-                type: "text",
+        var fields = [
+            {
+                id: "Name",
+                model: {
+                    type: "text",
+                },
+                view: {
+                    editor: "single line"
+                },
+                content: name
             },
-            view: {
-                editor: "single line"
-            },
-            content: name
-        }]
+            {
+                id: "Description",
+                model: {
+                    type: "text",
+                },
+                view: {
+                    editor: "multi line"
+                },
+                content: ""
+            }
+        ]
         return create_topic("Workspace", fields, "PlainDocument")
     },
 
