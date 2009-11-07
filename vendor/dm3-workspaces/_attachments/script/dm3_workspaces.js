@@ -91,7 +91,7 @@ dm3_workspaces.prototype = {
             {
                 id: "Name",
                 model: {
-                    type: "text",
+                    type: "text"
                 },
                 view: {
                     editor: "single line"
@@ -101,7 +101,7 @@ dm3_workspaces.prototype = {
             {
                 id: "Description",
                 model: {
-                    type: "text",
+                    type: "text"
                 },
                 view: {
                     editor: "multi line"

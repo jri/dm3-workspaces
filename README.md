@@ -2,6 +2,8 @@
 DeepaMehta 3 Workspaces Plugin
 ==============================
 
+Adds the capability to structure the knowledge base thematically.
+
 
 Requirements
 ------------
@@ -26,8 +28,8 @@ Installation
         couchapp push --atomic http://localhost:5984/deepamehta3-db
 
 
-Running
--------
+Usage
+-----
 
 1.  Visit DeepaMehta 3 in your webbrowser (resp. press reload):
         http://localhost:5984/deepamehta3-db/_design/deepamehta3/index.html
