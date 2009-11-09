@@ -1,5 +1,6 @@
 function dm3_workspaces() {
     css_stylesheet("vendor/dm3-workspaces/style/dm3-workspaces.css")
+    topic_type_icons["Workspace"] = create_image("vendor/dm3-workspaces/images/star.png")
 }
 
 dm3_workspaces.prototype = {
@@ -88,28 +89,10 @@ dm3_workspaces.prototype = {
 
     create_workspace: function(name) {
         var fields = [
-            {
-                id: "Name",
-                model: {
-                    type: "text"
-                },
-                view: {
-                    editor: "single line"
-                },
-                content: name
-            },
-            {
-                id: "Description",
-                model: {
-                    type: "text"
-                },
-                view: {
-                    editor: "multi line"
-                },
-                content: ""
-            }
+            {id: "Name",        model: {type: "text"}, view: {editor: "single line"}, content: name},
+            {id: "Description", model: {type: "text"}, view: {editor: "multi line"},  content: ""}
         ]
-        return create_topic("Workspace", fields, "PlainDocument")
+        return create_topic("Workspace", fields, {}, "PlainDocument")
     },
 
     workspace_selected: function() {
