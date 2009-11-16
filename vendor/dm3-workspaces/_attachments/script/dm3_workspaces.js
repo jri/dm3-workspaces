@@ -92,7 +92,9 @@ dm3_workspaces.prototype = {
             {id: "Name",        model: {type: "text"}, view: {editor: "single line"}, content: name},
             {id: "Description", model: {type: "text"}, view: {editor: "multi line"},  content: ""}
         ]
-        return create_topic("Workspace", fields, {}, "PlainDocument")
+        var workspace = create_raw_topic("Workspace", fields, {}, "PlainDocument")
+        save_document(workspace)
+        return workspace
     },
 
     workspace_selected: function() {
