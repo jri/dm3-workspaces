@@ -99,13 +99,10 @@ dm3_workspaces.prototype = {
     },
 
     workspace_selected: function(menu_item) {
-        var value = menu_item.id
-        log("workspace_selected: " + value)
+        var value = menu_item.value
+        log("Workspace selected: " + value)
         if (value == "_new") {
             dm3_workspaces.prototype.new_workspace()
-            dm3_workspaces.prototype.update_workspace_selection()
-        } else if (value == "") {
-            dm3_workspaces.prototype.update_workspace_selection()
         } else {
             current_workspace_id = value
         }
@@ -130,13 +127,13 @@ dm3_workspaces.prototype = {
         }
         ui.empty_menu("workspace_select")
         for (var i = 0, row; row = workspaces.rows[i]; i++) {
-            ui.add_menu_item("workspace_select", {id: row.id, label: row.value})
+            ui.add_menu_item("workspace_select", {label: row.value, value: row.id})
         }
         ui.add_menu_separator("workspace_select")
-        ui.add_menu_item("workspace_select", {id: "_new", label: "New Workspace..."})
+        ui.add_menu_item("workspace_select", {label: "New Workspace...", value: "_new", is_trigger: true})
     },
 
     update_workspace_selection: function() {
-        $("#workspace_select").val(current_workspace_id)
+        ui.select_menu_item("workspace_select", current_workspace_id)
     }
 }
