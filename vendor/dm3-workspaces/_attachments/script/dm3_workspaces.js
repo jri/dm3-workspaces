@@ -23,9 +23,10 @@ dm3_workspaces.prototype = {
             // update model
             current_workspace_id = workspaces.rows[0].id
             // update GUI
-            var select = $("<select>").attr("id", "workspace_select").change(module.workspace_selected)
+            var select = $("<div>").attr("id", "workspace_select")
             var workspace_selector = $("<div>").attr("id", "workspace_form").text("Workspace ").append(select)
             $("#upper_toolbar").prepend(workspace_selector)
+            ui.menu("workspace_select", module.workspace_selected, [])
             module.update_workspace_selector(workspaces)
         }
 
@@ -97,8 +98,8 @@ dm3_workspaces.prototype = {
         return workspace
     },
 
-    workspace_selected: function() {
-        var value = $("#workspace_select option:selected").attr("value")
+    workspace_selected: function(menu_item) {
+        var value = menu_item.id
         log("workspace_selected: " + value)
         if (value == "_new") {
             dm3_workspaces.prototype.new_workspace()
@@ -127,12 +128,12 @@ dm3_workspaces.prototype = {
         if (!workspaces) {
             workspaces = this.get_all_workspaces()
         }
-        var select = $("#workspace_select").empty()
+        ui.empty_menu("workspace_select")
         for (var i = 0, row; row = workspaces.rows[i]; i++) {
-            select.append($("<option>").attr("value", row.id).text(row.value))
+            ui.add_menu_item("workspace_select", {id: row.id, label: row.value})
         }
-        select.append($("<option>").attr("value", "").text("--------------"))
-        select.append($("<option>").attr("value", "_new").text("New Workspace..."))
+        ui.add_menu_separator("workspace_select")
+        ui.add_menu_item("workspace_select", {id: "_new", label: "New Workspace..."})
     },
 
     update_workspace_selection: function() {
