@@ -26,10 +26,11 @@ function dm3_workspaces() {
         }
 
         function create_workspace_selector() {
-            var select = $("<div>").attr("id", "workspace_select")
-            var workspace_selector = $("<div>").attr("id", "workspace_form").text("Workspace ").append(select)
-            $("#upper_toolbar").prepend(workspace_selector)
-            ui.menu("workspace_select", workspace_selected)
+            var workspace_label = $("<span>").attr("id", "workspace_label").text("Workspace")
+            var workspace_menu = $("<div>").attr("id", "workspace_menu")
+            var workspace_form = $("<div>").attr("id", "workspace_form").append(workspace_label).append(workspace_menu)
+            $("#upper-toolbar").prepend(workspace_form)
+            ui.menu("workspace_menu", workspace_selected)
             update_workspace_selector(workspaces)
         }
 
@@ -69,7 +70,7 @@ function dm3_workspaces() {
         // created if there is another relation already.
         // Note 2: we do not relate workspaces to a workspace. This would be contra-intuitive.
         if (doc.type == "Topic" && doc.topic_type != "Search Result" && doc.topic_type != "Workspace") {
-            var workspace_id = ui.menu_item("workspace_select").value
+            var workspace_id = ui.menu_item("workspace_menu").value
             // Note: workspace_id is undefined in case the doc is the (just created) default workspace itself.
             if (workspace_id) {
                 create_relation(doc._id, workspace_id)
@@ -126,15 +127,17 @@ function dm3_workspaces() {
         if (!workspaces) {
             workspaces = get_all_workspaces()
         }
-        ui.empty_menu("workspace_select")
+        // add menu items
+        ui.empty_menu("workspace_menu")
+        var icon_src = get_icon_src("Workspace")
         for (var i = 0, row; row = workspaces.rows[i]; i++) {
-            ui.add_menu_item("workspace_select", {label: row.value, value: row.id})
+            ui.add_menu_item("workspace_menu", {label: row.value, value: row.id, icon: icon_src})
         }
-        ui.add_menu_separator("workspace_select")
-        ui.add_menu_item("workspace_select", {label: "New Workspace...", value: "_new", is_trigger: true})
+        ui.add_menu_separator("workspace_menu")
+        ui.add_menu_item("workspace_menu", {label: "New Workspace...", value: "_new", is_trigger: true})
     }
 
     function select_workspace(workspace_id) {
-        ui.select_menu_item("workspace_select", workspace_id)
+        ui.select_menu_item("workspace_menu", workspace_id)
     }
 }
