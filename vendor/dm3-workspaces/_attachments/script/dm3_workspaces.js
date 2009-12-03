@@ -15,7 +15,7 @@ function dm3_workspaces() {
 
         var workspaces = get_all_workspaces()
         create_default_workspace()
-        create_workspace_selector()
+        create_workspace_menu()
         create_workspace_dialog()
 
         function create_default_workspace() {
@@ -25,13 +25,13 @@ function dm3_workspaces() {
             }
         }
 
-        function create_workspace_selector() {
+        function create_workspace_menu() {
             var workspace_label = $("<span>").attr("id", "workspace_label").text("Workspace")
             var workspace_menu = $("<div>").attr("id", "workspace_menu")
             var workspace_form = $("<div>").attr("id", "workspace_form").append(workspace_label).append(workspace_menu)
             $("#upper-toolbar").prepend(workspace_form)
             ui.menu("workspace_menu", workspace_selected)
-            update_workspace_selector(workspaces)
+            update_workspace_menu(workspaces)
         }
 
         function create_workspace_dialog() {
@@ -103,10 +103,12 @@ function dm3_workspaces() {
     }
 
     function workspace_selected(menu_item) {
-        var value = menu_item.value
-        log("Workspace selected: " + value)
-        if (value == "_new") {
+        var workspace_id = menu_item.value
+        log("Workspace selected: " + workspace_id)
+        if (workspace_id == "_new") {
             new_workspace()
+        } else {
+            reveal_document(workspace_id)
         }
     }
 
@@ -118,12 +120,12 @@ function dm3_workspaces() {
         $("#workspace_dialog").dialog("close")
         var name = $("#workspace_name").val()
         var workspace_id = create_workspace(name)._id
-        update_workspace_selector()
+        update_workspace_menu()
         select_workspace(workspace_id)
         return false
     }
 
-    function update_workspace_selector(workspaces) {
+    function update_workspace_menu(workspaces) {
         if (!workspaces) {
             workspaces = get_all_workspaces()
         }
