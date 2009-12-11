@@ -95,7 +95,7 @@ function dm3_workspaces() {
     function create_workspace(name) {
         var fields = [
             {id: "Name",        model: {type: "text"}, view: {editor: "single line"}, content: name},
-            {id: "Description", model: {type: "text"}, view: {editor: "multi line"},  content: ""}
+            {id: "Description", model: {type: "html"}, view: {editor: "multi line"},  content: ""}
         ]
         var workspace = create_raw_topic("Workspace", fields, {}, "PlainDocument")
         save_document(workspace)
