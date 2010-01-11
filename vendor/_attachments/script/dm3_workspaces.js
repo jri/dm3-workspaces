@@ -26,11 +26,11 @@ function dm3_workspaces() {
         }
 
         function create_workspace_menu() {
-            var workspace_label = $("<span>").attr("id", "workspace_label").text("Workspace")
-            var workspace_menu = $("<div>").attr("id", "workspace_menu")
-            var workspace_form = $("<div>").attr("id", "workspace_form").append(workspace_label).append(workspace_menu)
+            var workspace_label = $("<span>").attr("id", "workspace-label").text("Workspace")
+            var workspace_menu = $("<div>").attr("id", "workspace-menu")
+            var workspace_form = $("<div>").attr("id", "workspace-form").append(workspace_label).append(workspace_menu)
             $("#upper-toolbar").prepend(workspace_form)
-            ui.menu("workspace_menu", workspace_selected)
+            ui.menu("workspace-menu", workspace_selected)
             update_workspace_menu(workspaces)
         }
 
@@ -70,10 +70,10 @@ function dm3_workspaces() {
         // created if there is another relation already.
         // Note 2: we do not relate workspaces to a workspace. This would be contra-intuitive.
         if (doc.type == "Topic" && doc.topic_type != "Search Result" && doc.topic_type != "Workspace") {
-            var workspace_id = ui.menu_item("workspace_menu").value
+            var workspace_id = ui.menu_item("workspace-menu").value
             // Note: workspace_id is undefined in case the doc is the (just created) default workspace itself.
             if (workspace_id) {
-                create_relation(doc._id, workspace_id)
+                create_relation("Relation", doc._id, workspace_id)
             }
         } else {
             // TODO: assign relations to a workspace
@@ -89,7 +89,7 @@ function dm3_workspaces() {
 
 
     function get_all_workspaces() {
-        return db.view("deepamehta3/by_type", {key: "Workspace"})
+        return get_topics_by_type("Workspace")
     }
 
     function create_workspace(name) {
@@ -130,16 +130,16 @@ function dm3_workspaces() {
             workspaces = get_all_workspaces()
         }
         // add menu items
-        ui.empty_menu("workspace_menu")
+        ui.empty_menu("workspace-menu")
         var icon_src = get_icon_src("Workspace")
         for (var i = 0, row; row = workspaces.rows[i]; i++) {
-            ui.add_menu_item("workspace_menu", {label: row.value, value: row.id, icon: icon_src})
+            ui.add_menu_item("workspace-menu", {label: row.value, value: row.id, icon: icon_src})
         }
-        ui.add_menu_separator("workspace_menu")
-        ui.add_menu_item("workspace_menu", {label: "New Workspace...", value: "_new", is_trigger: true})
+        ui.add_menu_separator("workspace-menu")
+        ui.add_menu_item("workspace-menu", {label: "New Workspace...", value: "_new", is_trigger: true})
     }
 
     function select_workspace(workspace_id) {
-        ui.select_menu_item("workspace_menu", workspace_id)
+        ui.select_menu_item("workspace-menu", workspace_id)
     }
 }

@@ -1,10 +1,12 @@
-#workspace_form {
+#workspace-form {
     float: left;
-    margin-right: 3em;
+    margin-right: 1.2em;
 }
 
-#workspace_label {
+#workspace-label {
+    color: #555555;
     font-size: 81.25%;
-    margin-left: 1em;
-    margin-right: 0.5em;
+    font-weight: normal;
+    margin-left: 0.8em;
+    margin-right: 0.4em;
 }
