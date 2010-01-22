@@ -3,8 +3,6 @@ function dm3_workspaces() {
     css_stylesheet("vendor/dm3-workspaces/style/dm3-workspaces.css")
     topic_type_icons["Workspace"] = create_image("vendor/dm3-workspaces/images/star.png")
 
-    init()
-
 
 
     /**************************************************************************************************/
@@ -12,6 +10,40 @@ function dm3_workspaces() {
     /**************************************************************************************************/
 
 
+
+    this.init = function() {
+
+        var workspaces = get_all_workspaces()
+        create_default_workspace()
+        create_workspace_menu()
+        create_workspace_dialog()
+
+        function create_default_workspace() {
+            if (workspaces.rows.length == 0) {
+                create_workspace("Default")
+                workspaces = get_all_workspaces()
+            }
+        }
+
+        function create_workspace_menu() {
+            var workspace_label = $("<span>").attr("id", "workspace-label").text("Workspace")
+            var workspace_menu = $("<div>").attr("id", "workspace-menu")
+            var workspace_form = $("<div>").attr("id", "workspace-form").append(workspace_label).append(workspace_menu)
+            $("#upper-toolbar").prepend(workspace_form)
+            ui.menu("workspace-menu", workspace_selected)
+            update_workspace_menu(workspaces)
+        }
+
+        function create_workspace_dialog() {
+            var workspace_dialog = $("<div>").attr("id", "workspace_dialog")
+            var input = $("<input>").attr({id: "workspace_name", size: 30})
+            workspace_dialog.append("Name:")
+            workspace_dialog.append($("<form>").submit(do_create_workspace).append(input))
+            $("body").append(workspace_dialog)
+            $("#workspace_dialog").dialog({modal: true, autoOpen: false, draggable: false, resizable: false, width: 350,
+                title: "New Workspace", buttons: {"OK": do_create_workspace}})
+        }
+    }
 
     // Note: we use the pre_create hook to let the "Workspaces" field be saved also if the user cancels the initial editing.
     this.pre_create = function(doc) {
@@ -55,40 +87,6 @@ function dm3_workspaces() {
     /************************************************************************************************/
 
 
-
-    function init() {
-
-        var workspaces = get_all_workspaces()
-        create_default_workspace()
-        create_workspace_menu()
-        create_workspace_dialog()
-
-        function create_default_workspace() {
-            if (workspaces.rows.length == 0) {
-                create_workspace("Default")
-                workspaces = get_all_workspaces()
-            }
-        }
-
-        function create_workspace_menu() {
-            var workspace_label = $("<span>").attr("id", "workspace-label").text("Workspace")
-            var workspace_menu = $("<div>").attr("id", "workspace-menu")
-            var workspace_form = $("<div>").attr("id", "workspace-form").append(workspace_label).append(workspace_menu)
-            $("#upper-toolbar").prepend(workspace_form)
-            ui.menu("workspace-menu", workspace_selected)
-            update_workspace_menu(workspaces)
-        }
-
-        function create_workspace_dialog() {
-            var workspace_dialog = $("<div>").attr("id", "workspace_dialog")
-            var input = $("<input>").attr({id: "workspace_name", size: 30})
-            workspace_dialog.append("Name:")
-            workspace_dialog.append($("<form>").submit(do_create_workspace).append(input))
-            $("body").append(workspace_dialog)
-            $("#workspace_dialog").dialog({modal: true, autoOpen: false, draggable: false, resizable: false, width: 350,
-                title: "New Workspace", buttons: {"OK": do_create_workspace}})
-        }
-    }
 
     function get_all_workspaces() {
         return get_topics_by_type("Workspace")
