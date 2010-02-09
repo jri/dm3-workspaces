@@ -19,7 +19,7 @@ function dm3_workspaces() {
         create_workspace_dialog()
 
         function create_default_workspace() {
-            if (workspaces.rows.length == 0) {
+            if (!workspaces.length) {
                 create_workspace("Default")
                 workspaces = get_all_workspaces()
             }
@@ -132,8 +132,8 @@ function dm3_workspaces() {
         // add menu items
         ui.empty_menu("workspace-menu")
         var icon_src = get_icon_src("Workspace")
-        for (var i = 0, row; row = workspaces.rows[i]; i++) {
-            ui.add_menu_item("workspace-menu", {label: row.value, value: row.id, icon: icon_src})
+        for (var i = 0, workspace; workspace = workspaces[i]; i++) {
+            ui.add_menu_item("workspace-menu", {label: workspace.label, value: workspace.id, icon: icon_src})
         }
         ui.add_menu_separator("workspace-menu")
         ui.add_menu_item("workspace-menu", {label: "New Workspace...", value: "_new", is_trigger: true})
