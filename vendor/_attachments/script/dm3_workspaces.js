@@ -70,13 +70,21 @@ function dm3_workspaces() {
         // created if there is another relation already.
         // Note 2: we do not relate workspaces to a workspace. This would be contra-intuitive.
         if (doc.type == "Topic" && doc.topic_type != "Search Result" && doc.topic_type != "Workspace") {
-            var workspace_id = ui.menu_item("workspace-menu").value
+            var workspace_id = get_workspace_id()
             // Note: workspace_id is undefined in case the doc is the (just created) default workspace itself.
             if (workspace_id) {
                 create_relation("Relation", doc._id, workspace_id)
             }
         } else {
             // TODO: assign relations to a workspace
+        }
+    }
+
+    this.post_delete = function(doc) {
+        if (doc.type == "Topic" && doc.topic_type == "Workspace") {
+            var workspace_id = get_workspace_id()
+            update_workspace_menu()
+            select_workspace(workspace_id)  // restore selection
         }
     }
 
@@ -90,6 +98,13 @@ function dm3_workspaces() {
 
     function get_all_workspaces() {
         return get_topics_by_type("Workspace")
+    }
+
+    /**
+     * Returns the ID of the currently selected workspace.
+     */
+    function get_workspace_id() {
+        return ui.menu_item("workspace-menu").value
     }
 
     function create_workspace(name) {
