@@ -84,7 +84,7 @@ function dm3_workspaces() {
         if (doc.type == "Topic" && doc.topic_type == "Workspace") {
             var workspace_id = get_workspace_id()
             update_workspace_menu()
-            select_workspace(workspace_id)  // restore selection
+            select_menu_item(workspace_id)  // restore selection
         }
     }
 
@@ -121,13 +121,13 @@ function dm3_workspaces() {
         var workspace_id = menu_item.value
         log("Workspace selected: " + workspace_id)
         if (workspace_id == "_new") {
-            new_workspace()
+            open_workspace_dialog()
         } else {
             reveal_document(workspace_id)
         }
     }
 
-    function new_workspace() {
+    function open_workspace_dialog() {
         $("#workspace_dialog").dialog("open")
     }
 
@@ -136,7 +136,7 @@ function dm3_workspaces() {
         var name = $("#workspace_name").val()
         var workspace_id = create_workspace(name)._id
         update_workspace_menu()
-        select_workspace(workspace_id)
+        select_menu_item(workspace_id)
         return false
     }
 
@@ -154,7 +154,7 @@ function dm3_workspaces() {
         ui.add_menu_item("workspace-menu", {label: "New Workspace...", value: "_new", is_trigger: true})
     }
 
-    function select_workspace(workspace_id) {
+    function select_menu_item(workspace_id) {
         ui.select_menu_item("workspace-menu", workspace_id)
     }
 }
